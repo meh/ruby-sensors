@@ -29,37 +29,37 @@
 module Sensors
 
 class Subfeature
-	attr_reader :chip
+  attr_reader :chip
 
-	def initialize (feature, pointer)
-		@chip    = feature.chip
-		@feature = feature
-		@value   = pointer.is_a?(C::Subfeature) ? pointer : C::Subfeature.new(pointer)
-	end
+  def initialize (feature, pointer)
+    @chip    = feature.chip
+    @feature = feature
+    @value   = pointer.is_a?(C::Subfeature) ? pointer : C::Subfeature.new(pointer)
+  end
 
-	C::Subfeature.layout.members.each {|name|
+  C::Subfeature.layout.members.each {|name|
     define_method name do
       @value[name]
     end
   }
 
-	def value
-		FFI::MemoryPointer.new(:double).tap {|result|
-			C::sensors_get_value(chip.to_ffi, to_ffi, result)
+  def value
+    FFI::MemoryPointer.new(:double).tap {|result|
+      C::sensors_get_value(chip.to_ffi, to_ffi, result)
 
-			break result.typecast(:double)
-		}
-	end
+      break result.typecast(:double)
+    }
+  end
 
-	def value= (value)
-		C::sensors_set_value(chip.to_ffi, to_ffi, value)
-	end
+  def value= (value)
+    C::sensors_set_value(chip.to_ffi, to_ffi, value)
+  end
 
-	alias to_s name
+  alias to_s name
 
-	def to_ffi
-		number
-	end
+  def to_ffi
+    number
+  end
 end
 
 end

@@ -29,40 +29,40 @@
 module Sensors
 
 class Feature
-	attr_reader :chip, :label
+  attr_reader :chip, :label
 
-	def initialize (chip, pointer)
-		@chip  = chip
-		@value = pointer.is_a?(C::Feature) ? pointer : C::Feature.new(pointer)
+  def initialize (chip, pointer)
+    @chip  = chip
+    @value = pointer.is_a?(C::Feature) ? pointer : C::Feature.new(pointer)
 
-		@label = C::sensors_get_label(chip.to_ffi, to_ffi)
-	end
+    @label = C::sensors_get_label(chip.to_ffi, to_ffi)
+  end
 
-	C::Feature.layout.members.each {|name|
+  C::Feature.layout.members.each {|name|
     define_method name do
       @value[name]
     end
   }
 
-	def subfeature (type)
-		Subfeature.new(self, C::sensors_get_subfeature(chip.to_ffi, to_ffi, C::SubfeatureType["#{feature.type}_#{type.downcase}".to_sym]))
-	end
+  def subfeature (type)
+    Subfeature.new(self, C::sensors_get_subfeature(chip.to_ffi, to_ffi, C::SubfeatureType["#{feature.type}_#{type.downcase}".to_sym]))
+  end
 
-	def subfeatures
-		Enumerator.new do |e|
-			number = FFI::MemoryPointer.new :int
+  def subfeatures
+    Enumerator.new do |e|
+      number = FFI::MemoryPointer.new :int
 
-			until (subfeature = C::sensors_get_all_subfeatures(chip.to_ffi, to_ffi, number)).null?
-				e << Subfeature.new(self, subfeature)
-			end
-		end
-	end
+      until (subfeature = C::sensors_get_all_subfeatures(chip.to_ffi, to_ffi, number)).null?
+        e << Subfeature.new(self, subfeature)
+      end
+    end
+  end
 
-	alias to_s name
+  alias to_s name
 
-	def to_ffi
-		@value
-	end
+  def to_ffi
+    @value
+  end
 end
 
 end

@@ -31,19 +31,19 @@ module Sensors; module C
 # :string, :libsensors_version # TODO: look how to get an extern var
 
 BusType = FFI::Enum.new([
-	:any, -1,
-	:i2c,
-	:isa,
-	:pci,
-	:spi,
-	:virtual,
-	:acpi,
-	:hid
+  :any, -1,
+  :i2c,
+  :isa,
+  :pci,
+  :spi,
+  :virtual,
+  :acpi,
+  :hid
 ])
 
 module BusNumber
-	Any    = -1
-	Ignore = -2
+  Any    = -1
+  Ignore = -2
 end
 
 class BusId < FFI::Struct
@@ -62,7 +62,7 @@ end
 
 FeatureType = FFI::Enum.new([
   :in,          0x00,
-	:fan,         0x01,
+  :fan,         0x01,
   :temp,        0x02,
   :power,       0x03,
   :energy,      0x04,
@@ -77,102 +77,102 @@ FeatureType = FFI::Enum.new([
 ])
 
 SubfeatureType = FFI::Enum.new([
-	:in_input, FeatureType[:in] << 8,
-	:in_min,
-	:in_max,
-	:in_lcrit,
-	:in_crit,
-	:in_alarm, (FeatureType[:in] << 8) | 0x80,
-	:in_min_alarm,
-	:in_max_alarm,
-	:in_beep,
-	:in_lcrit_alarm,
-	:in_crit_alarm,
+  :in_input, FeatureType[:in] << 8,
+  :in_min,
+  :in_max,
+  :in_lcrit,
+  :in_crit,
+  :in_alarm, (FeatureType[:in] << 8) | 0x80,
+  :in_min_alarm,
+  :in_max_alarm,
+  :in_beep,
+  :in_lcrit_alarm,
+  :in_crit_alarm,
 
-	:fan_input, FeatureType[:fan] << 8,
-	:fan_min,
-	:fan_alarm, (FeatureType[:fan] << 8) | 0x80,
-	:fan_fault,
-	:fan_div,
-	:fan_beep,
-	:fan_pulses,
+  :fan_input, FeatureType[:fan] << 8,
+  :fan_min,
+  :fan_alarm, (FeatureType[:fan] << 8) | 0x80,
+  :fan_fault,
+  :fan_div,
+  :fan_beep,
+  :fan_pulses,
 
-	:temp_input, FeatureType[:temp] << 8,
-	:temp_max,
-	:temp_max_hyst,
-	:temp_min,
-	:temp_crit,
-	:temp_crit_hyst,
-	:temp_lcrit,
-	:temp_emergency,
-	:temp_emergency_hist,
-	:temp_alarm, (FeatureType[:temp] << 8) | 0x80,
-	:temp_max_alarm,
-	:temp_min_alarm,
-	:temp_crit_alarm,
-	:temp_fault,
-	:temp_type,
-	:temp_offset,
-	:temp_beep,
-	:temp_emergency_alarm,
-	:temp_lcrit_alarm,
+  :temp_input, FeatureType[:temp] << 8,
+  :temp_max,
+  :temp_max_hyst,
+  :temp_min,
+  :temp_crit,
+  :temp_crit_hyst,
+  :temp_lcrit,
+  :temp_emergency,
+  :temp_emergency_hist,
+  :temp_alarm, (FeatureType[:temp] << 8) | 0x80,
+  :temp_max_alarm,
+  :temp_min_alarm,
+  :temp_crit_alarm,
+  :temp_fault,
+  :temp_type,
+  :temp_offset,
+  :temp_beep,
+  :temp_emergency_alarm,
+  :temp_lcrit_alarm,
 
-	:power_average, FeatureType[:power] << 8,
-	:power_average_highest,
-	:power_average_lowest,
-	:power_input,
-	:power_input_highest,
-	:power_input_lowest,
-	:power_cap,
-	:power_cap_hyst,
-	:power_max,
-	:power_crit,
-	:power_average_interval, (FeatureType[:power] << 8) | 0x80,
-	:power_alarm,
-	:power_cap_alarm,
-	:power_max_alarm,
-	:power_crit_alarm,
+  :power_average, FeatureType[:power] << 8,
+  :power_average_highest,
+  :power_average_lowest,
+  :power_input,
+  :power_input_highest,
+  :power_input_lowest,
+  :power_cap,
+  :power_cap_hyst,
+  :power_max,
+  :power_crit,
+  :power_average_interval, (FeatureType[:power] << 8) | 0x80,
+  :power_alarm,
+  :power_cap_alarm,
+  :power_max_alarm,
+  :power_crit_alarm,
 
-	:energy_input, FeatureType[:energy] << 8,
+  :energy_input, FeatureType[:energy] << 8,
 
-	:curr_input, FeatureType[:curr] << 8,
-	:curr_min,
-	:curr_max,
-	:curr_lcrit,
-	:curr_crit,
-	:curr_alarm, (FeatureType[:curr] << 8) | 0x80,
-	:curr_min_alarm,
-	:curr_max_alarm,
-	:curr_beep,
-	:curr_lcrit_alarm,
-	:curr_crit_alarm,
+  :curr_input, FeatureType[:curr] << 8,
+  :curr_min,
+  :curr_max,
+  :curr_lcrit,
+  :curr_crit,
+  :curr_alarm, (FeatureType[:curr] << 8) | 0x80,
+  :curr_min_alarm,
+  :curr_max_alarm,
+  :curr_beep,
+  :curr_lcrit_alarm,
+  :curr_crit_alarm,
 
-	:humidity_input, FeatureType[:humidity] << 8,
+  :humidity_input, FeatureType[:humidity] << 8,
 
-	:vid, FeatureType[:vid] << 8,
+  :vid, FeatureType[:vid] << 8,
 
-	:intrusion_alarm, FeatureType[:intrusion] << 8,
-	:intrusion_beep
+  :intrusion_alarm, FeatureType[:intrusion] << 8,
+  :intrusion_beep
 
-#	:unknown, INT_MAX
+#  :unknown, INT_MAX
 ])
 
 class Feature < FFI::Struct
-	layout \
-		:name,    :string,
-		:number,  :int,
-		:type,    FeatureType,
-		:mapping, :int,
-		:flags,   :uint
+  layout \
+    :name,    :string,
+    :number,  :int,
+    :type,    FeatureType,
+    :mapping, :int,
+    :flags,   :uint
 end
 
 class Subfeature < FFI::Struct
-	layout \
-		:name,    :string,
-		:number,  :int,
-		:type,    SubfeatureType,
-		:mapping, :int,
-		:flags,   :uint
+  layout \
+    :name,    :string,
+    :number,  :int,
+    :type,    SubfeatureType,
+    :mapping, :int,
+    :flags,   :uint
 end
 
 end; end
