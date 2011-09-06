@@ -10,4 +10,5 @@ Gem::Specification.new {|s|
   s.require_path = 'lib'
 
   s.add_dependency('ffi') unless defined?(RUBY_ENGINE) && RUBY_ENGINE == 'rbx'
+  s.add_dependency('ffi-extra')
 }
